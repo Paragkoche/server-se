@@ -37,11 +37,11 @@ const getRandomValue = (min, max) => {
 exports.getIOTData = catchAsync(async (req, res, next) => {
     // Generate random natural-like values
     const randomData = {
-        deviceId: 'device-' + Math.floor(Math.random() * 1000),
-        temperature: getRandomValue(36.0, 38.5), // Human body or room temp range
-        pressure: getRandomValue(980, 1050),     // Atmospheric pressure in hPa
-        humidity: getRandomValue(30, 70),        // Humidity percentage
-        createdAt: new Date(),
+     deviceId: 'human-' + Math.floor(Math.random() * 1000),
+    temperature: getRandomValue(36.0, 37.5),  // Safe body temperature
+    humidity: getRandomValue(30, 70),         // Safe humidity range
+    pressure: getRandomValue(950, 1050),      // Safe atmospheric pressure
+    createdAt: new Date(),
     };
 
     res.status(200).json({
