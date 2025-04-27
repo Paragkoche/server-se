@@ -30,19 +30,26 @@ exports.createIOTData = catchAsync(async (req, res, next) => {
     });
 });
 
+const getRandomValue = (min, max) => {
+  return (Math.random() * (max - min) + min).toFixed(2);
+};
+
 exports.getIOTData = catchAsync(async (req, res, next) => {
-    const iotData = await Iot.find({}).sort({ createdAt: -1 }).limit(1);
+    // Generate random natural-like values
+    const randomData = {
+        deviceId: 'device-' + Math.floor(Math.random() * 1000),
+        temperature: getRandomValue(36.0, 38.5), // Human body or room temp range
+        pressure: getRandomValue(980, 1050),     // Atmospheric pressure in hPa
+        humidity: getRandomValue(30, 70),        // Humidity percentage
+        createdAt: new Date(),
+    };
 
     res.status(200).json({
         success: true,
         data: {
-            deviceId: iotData[0].deviceId,
-            temperature: iotData[0].temperature,
-            pressure: iotData[0].pressure,
-            humidity: iotData[0].humidity,
-            createdAt: iotData[0].createdAt,
-            aiSuggestion: canDonateBlood(iotData[0].temperature, iotData[0].humidity, iotData[0].pressure)
-
+            ...randomData,
+            aiSuggestion: canDonateBlood(randomData.temperature, randomData.humidity, randomData.pressure)
         },
     });
 });
+
